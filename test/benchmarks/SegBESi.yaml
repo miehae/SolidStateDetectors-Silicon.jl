@@ -1,0 +1,253 @@
+name: Public Segmented BE Si
+units:
+  length: mm
+  angle: deg
+  potential: V
+  temperature: K
+grid:
+  coordinates: cylindrical
+  axes:
+    r:
+      to: 50
+      boundaries: inf
+    phi:
+      from: 0
+      to: 120
+      boundaries:
+        left: periodic
+        right: periodic
+    z:
+      from: -10
+      to: 60
+      boundaries:
+        left: inf
+        right: inf
+medium: vacuum
+detectors:
+- semiconductor:
+    material: Si
+    temperature: 240
+    impurity_density:
+      name: cylindrical
+      r:
+        init: 0
+        gradient: 0
+      z:
+        init: 0
+        gradient: 0
+    charge_drift_model:
+      include: ADLChargeDriftModel/drift_velocity_Si_300K_config.yaml
+    geometry:
+      translate:
+        tube:
+          r: 39.5
+          phi:
+            from: 0
+            to: 360
+          h: 40
+        z: 20
+  contacts:
+  - material: Si
+    id: 1
+    potential: 4500
+    geometry:
+      tube:
+        r: 7.5
+        h: 0.3
+        origin:
+          z: 39.85
+  - name: Seg. 1
+    material: Si
+    id: 2
+    potential: 0
+    geometry:
+      union:
+      - tube:
+          r:
+            from: 13.5
+            to: 39.5
+          phi:
+            from: 0.3582
+            to: 59.6419
+          h: 0
+      - tube:
+          r:
+            from: 39.5
+            to: 39.5
+          phi:
+            from: 0.3582
+            to: 59.6419
+          h: 40
+          origin:
+            z: 20
+      - tube:
+          r:
+            from: 17
+            to: 39.5
+          phi:
+            from: 0.3582
+            to: 59.6419
+          h: 0
+          origin:
+            z: 40
+  - name: Seg. 2
+    material: Si
+    id: 3
+    potential: 0
+    geometry:
+      union:
+      - tube:
+          r:
+            from: 13.5
+            to: 39.5
+          phi:
+            from: 120.3581
+            to: 179.6419
+          h: 0
+      - tube:
+          r:
+            from: 39.5
+            to: 39.5
+          phi:
+            from: 120.3581
+            to: 179.6419
+          h: 40
+          origin:
+            z: 20
+      - tube:
+          r:
+            from: 17
+            to: 39.5
+          phi:
+            from: 120.3581
+            to: 179.6419
+          h: 0
+          origin:
+            z: 40
+  - name: Seg. 3
+    material: Si
+    id: 4
+    potential: 0
+    geometry:
+      union:
+      - tube:
+          r:
+            from: 13.5
+            to: 39.5
+          phi:
+            from: 240.3581
+            to: 299.6419
+          h: 0
+      - tube:
+          r:
+            from: 39.5
+            to: 39.5
+          phi:
+            from: 240.3581
+            to: 299.6419
+          h: 40
+          origin:
+            z: 20
+      - tube:
+          r:
+            from: 17
+            to: 39.5
+          phi:
+            from: 240.3581
+            to: 299.6419
+          h: 0
+          origin:
+            z: 40
+  - name: Seg. 4
+    material: Si
+    id: 5
+    potential: 0
+    geometry:
+      union:
+      - tube:
+          r:
+            from: 13
+            to: 39.5
+          phi:
+            from: 60.3581
+            to: 119.6419
+          h: 0
+      - tube:
+          r:
+            from: 39.5
+            to: 39.5
+          phi:
+            from: 60.3581
+            to: 119.6419
+          h: 40
+          origin:
+            z: 20
+      - tube:
+          r:
+            from: 17
+            to: 39.5
+          phi:
+            from: 60.3581
+            to: 119.6419
+          h: 0
+          origin:
+            z: 40
+      - tube:
+          r:
+            from: 13
+            to: 39.5
+          phi:
+            from: 180.3581
+            to: 239.6419
+          h: 0
+      - tube:
+          r:
+            from: 39.5
+            to: 39.5
+          phi:
+            from: 180.3581
+            to: 239.6419
+          h: 40
+          origin:
+            z: 20
+      - tube:
+          r:
+            from: 17
+            to: 39.5
+          phi:
+            from: 180.3581
+            to: 239.6419
+          h: 0
+          origin:
+            z: 40
+      - tube:
+          r:
+            from: 13
+            to: 39.5
+          phi:
+            from: 300.3581
+            to: 359.6419
+          h: 0
+      - tube:
+          r:
+            from: 39.5
+            to: 39.5
+          phi:
+            from: 300.3581
+            to: 359.6419
+          h: 40
+          origin:
+            z: 20
+      - tube:
+          r:
+            from: 17
+            to: 39.5
+          phi:
+            from: 300.3581
+            to: 359.6419
+          h: 0
+          origin:
+            z: 40
+      - tube:
+          r: 13
+          h: 0
