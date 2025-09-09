@@ -164,7 +164,7 @@ drift_charges!(evt, sim, Δt = 1u"ns", verbose = false)
 !!! note
     Using values with units for `Δt` requires the package [Unitful.jl](https://github.com/PainterQubits/Unitful.jl).
 """
-function drift_charges!(evt::Event{T}, sim::Simulation{T}; max_nsteps::Int = 1000, Δt::RealQuantity = 5u"ns", diffusion::Bool = false, self_repulsion::Bool = false, verbose::Bool = true, end_drift_when_no_field::Bool = true, self_repulsion_min_dist::T = T(1e-10))::Nothing where {T <: SSDFloat}
+function drift_charges!(evt::Event{T}, sim::Simulation{T}; max_nsteps::Int = 1000, Δt::RealQuantity = 5u"ns", diffusion::Bool = false, self_repulsion::Bool = false, verbose::Bool = true, end_drift_when_no_field::Bool = true, self_repulsion_min_dist::T = T(1e-5))::Nothing where {T <: SSDFloat}
     !in(evt, sim.detector) && move_charges_inside_semiconductor!(evt, sim.detector, verbose = verbose)
     evt.drift_paths = drift_charges(sim, evt.locations, evt.energies, Δt = Δt, max_nsteps = max_nsteps, diffusion = diffusion, self_repulsion = self_repulsion, verbose = verbose, end_drift_when_no_field = end_drift_when_no_field, self_repulsion_min_dist = self_repulsion_min_dist)
     nothing
@@ -246,7 +246,7 @@ simulate!(evt, sim, Δt = 1u"ns", verbose = false)
 
 See also [`drift_charges!`](@ref) and [`get_signals!`](@ref).
 """
-function simulate!(evt::Event{T}, sim::Simulation{T}; max_nsteps::Int = 1000, Δt::RealQuantity = 5u"ns", diffusion::Bool = false, self_repulsion::Bool = false, verbose::Bool = true, end_drift_when_no_field::Bool = true, self_repulsion_min_dist::T = T(1e-10))::Nothing where {T <: SSDFloat}
+function simulate!(evt::Event{T}, sim::Simulation{T}; max_nsteps::Int = 1000, Δt::RealQuantity = 5u"ns", diffusion::Bool = false, self_repulsion::Bool = false, verbose::Bool = true, end_drift_when_no_field::Bool = true, self_repulsion_min_dist::T = T(1e-5))::Nothing where {T <: SSDFloat}
     drift_charges!(evt, sim, max_nsteps = max_nsteps, Δt = Δt, diffusion = diffusion, self_repulsion = self_repulsion, verbose = verbose, end_drift_when_no_field = end_drift_when_no_field, self_repulsion_min_dist = self_repulsion_min_dist)
     get_signals!(evt, sim, Δt = Δt)
     nothing

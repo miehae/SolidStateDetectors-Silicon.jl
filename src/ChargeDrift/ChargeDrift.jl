@@ -33,7 +33,7 @@ function _drift_charges(det::SolidStateDetector{T}, grid::Grid{T, 3}, point_type
                         starting_points::VectorOfArrays{CartesianPoint{T}}, energies::VectorOfArrays{T},
                         electric_field::Interpolations.Extrapolation{<:SVector{3}, 3},
                         Δt::RQ; max_nsteps::Int = 2000, diffusion::Bool = false, self_repulsion::Bool = false, verbose::Bool = true, 
-                        end_drift_when_no_field::Bool = true, self_repulsion_min_dist::T = T(1e-10))::Vector{EHDriftPath{T}} where {T <: SSDFloat, RQ <: RealQuantity}
+                        end_drift_when_no_field::Bool = true, self_repulsion_min_dist::T = T(1e-5))::Vector{EHDriftPath{T}} where {T <: SSDFloat, RQ <: RealQuantity}
 
     drift_paths::Vector{EHDriftPath{T}} = Vector{EHDriftPath{T}}(undef, length(flatview(starting_points)))
     dt::T = T(to_internal_units(Δt))
@@ -130,7 +130,7 @@ function _add_fieldvector_diffusion!(step_vectors::Vector{CartesianVector{T}}, d
     nothing 
 end
 
-function _add_fieldvector_selfrepulsion!(step_vectors::Vector{CartesianVector{T}}, current_pos::Vector{CartesianPoint{T}}, done::Vector{Bool}, charges::Vector{T}, ϵ_r::T, self_repulsion_min_dist::T = T(1e-10))::Nothing where {T <: SSDFloat}
+function _add_fieldvector_selfrepulsion!(step_vectors::Vector{CartesianVector{T}}, current_pos::Vector{CartesianPoint{T}}, done::Vector{Bool}, charges::Vector{T}, ϵ_r::T, self_repulsion_min_dist::T = T(1e-5))::Nothing where {T <: SSDFloat}
     #TO DO: ignore charges that are already collected (not trapped though!)
     for n in eachindex(step_vectors)
         if done[n] continue end
@@ -141,7 +141,7 @@ function _add_fieldvector_selfrepulsion!(step_vectors::Vector{CartesianVector{T}
                 if iszero(direction) # if the two charges are at the exact same position
                     continue         # don't let them self-repel each other but treat them as same change
                 end                  # if diffusion is simulated, they will very likely be separated in the next step
-                tmp::T = elementary_charge * inv(4 * pi * ϵ0 * ϵ_r * max(sum(direction.^2), self_repulsion_min_dist)) # minimum distance 
+                tmp::T = elementary_charge * inv(4 * pi * ϵ0 * ϵ_r * max(sum(direction.^2), self_repulsion_min_dist^2)) # minimum distance 
                 step_vectors[n] += charges[m] * tmp * normalize(direction)
                 step_vectors[m] -= charges[n] * tmp * normalize(direction)
             end
@@ -262,7 +262,7 @@ function _drift_charge!(
                             self_repulsion::Bool = false,
                             verbose::Bool = true,
                             end_drift_when_no_field::Bool = true,
-                            self_repulsion_min_dist::T = T(1e-10)
+                            self_repulsion_min_dist::T = T(1e-5)
                         )::Int where {T <: SSDFloat, S, CC <: ChargeCarrier}
                         
     n_hits::Int, max_nsteps::Int = size(drift_path)

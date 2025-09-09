@@ -1206,7 +1206,7 @@ end
 
 function drift_charges( sim::Simulation{T}, starting_positions::VectorOfArrays{CartesianPoint{T}}, energies::VectorOfArrays{T};
                         Δt::RealQuantity = 5u"ns", max_nsteps::Int = 1000, diffusion::Bool = false, self_repulsion::Bool = false, verbose::Bool = true, 
-                        end_drift_when_no_field::Bool = true, self_repulsion_min_dist::T = T(1e-10) )::Vector{EHDriftPath{T}} where {T <: SSDFloat}
+                        end_drift_when_no_field::Bool = true, self_repulsion_min_dist::T = T(1e-5) )::Vector{EHDriftPath{T}} where {T <: SSDFloat}
     return _drift_charges(   sim.detector, sim.point_types.grid, sim.point_types, starting_positions, energies, 
                              interpolated_vectorfield(sim.electric_field), Δt, 
                              max_nsteps = max_nsteps, diffusion = diffusion, self_repulsion = self_repulsion, verbose = verbose, 
